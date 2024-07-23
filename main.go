@@ -6,6 +6,7 @@ import (
 	"time"
 
 	tea "github.com/charmbracelet/bubbletea"
+	"github.com/charmbracelet/lipgloss"
 )
 
 type model struct {
@@ -110,34 +111,34 @@ func (m model) View() string {
 	if m.state == mainChoices {
 		s = "Choose a Data structure:\n\n"
 		for i, choice := range m.choices {
-			cursor := " "
+			cursor := "   "
 			if m.cursor == i && m.blink {
-				cursor = ">"
+				cursor = "[>]"
 			}
 			if m.selected == i {
 				cursor = "[>]"
 			}
 			line := fmt.Sprintf("%s %s", cursor, choice)
-			// if m.selected == i {
-			// 	line = lipgloss.NewStyle().Foreground(lipgloss.Color("205")).Render(line)
-			// }
+			if m.cursor == i {
+				line = lipgloss.NewStyle().Foreground(lipgloss.Color("205")).Render(line)
+			}
 			s += line + "\n"
 		}
 	} else if m.state == subChoices {
 		s = fmt.Sprintf("Operations for %s:\n\n", m.choices[m.selected])
 		subChoiceList := m.subChoices[m.choices[m.selected]]
 		for i, subChoice := range subChoiceList {
-			cursor := " "
+			cursor := "   "
 			if m.cursor == i && m.blink {
-				cursor = ">"
+				cursor = "[>]"
 			}
 			if m.subSelected == i {
 				cursor = "[>]"
 			}
 			line := fmt.Sprintf("%s %s", cursor, subChoice)
-			// if m.subSelected == i {
-			// 	line = lipgloss.NewStyle().Foreground(lipgloss.Color("205")).Render(line)
-			// }
+			if m.cursor == i {
+				line = lipgloss.NewStyle().Foreground(lipgloss.Color("205")).Render(line)
+			}
 			s += line + "\n"
 		}
 	}
