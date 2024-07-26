@@ -14,8 +14,8 @@ func main() {
 	flag := true
 	for {
 		if flag {
-			// TODO: This needs to be dynamic instead of hard-coded, so that if another data structure, if added, shouldn't mess up the selection logic, especially for Exit!
-			fmt.Println("\nChoose ur DS:\nLists:\n 1. Singly Linked List\n 2. ArrayList\n 3. Doubly Linked List\nSets:\n 4. Hashed Set\n 5. Tree Set\n 6. Linked Hash Set\nStacks:\n 7. Array Stack\n 8. Linked List Stack\nMaps:\n 9.Hash Map\n10. Tree Map\n11. Linked Hash Map\n12. Hashed Bidi Map\n13. Tree Bidi Map\nTrees:\n14. Red Black Trees\n15. AVL Trees\n16. BTree\n17. Binary Heap\nQueues:\n18. Linked List Queue\n19. Array Queue\n20. Circular Buffer\n21. Priority Queue\n\n22. Exit")
+			// TODO: This needs to be dynamic instead of hard-coded, so that if another data structure is added, shouldn't mess up the selection logic, especially for Exit!
+			fmt.Println("\nChoose ur DS:\n\nLists:\n1. Singly Linked List\t2. ArrayList\t3. Doubly Linked List\n\nSets:\n4. Hashed Set\t5. Tree Set\t6. Linked Hash Set\n\nStacks:\n7. Array Stack\t8. Linked List Stack\n\nMaps:\n9.Hash Map\t10. Tree Map\t11. Linked Hash Map\t12. Hashed Bidi Map\t13. Tree Bidi Map\n\nTrees:\n14. Red Black Trees\t15. AVL Trees\t16. BTree\t17. Binary Heap\n\nQueues:\n18. Linked List Queue\t19. Array Queue\t20. Circular Buffer\t21. Priority Queue\n\n22. Exit")
 
 			fmt.Print("Enter Your Choice: ")
 			fmt.Scanln(&dataStructure)
@@ -28,24 +28,29 @@ func main() {
 
 		choices := initiator.GetChoices(dataStructure)
 
-		var choiceConter int
+		var exitIndex int
+
 		for i, o := range choices {
-			fmt.Println(i+1, ". "+o)
+			if i < 9 {
+				fmt.Println("", i+1, ". "+o)
+			} else {
+				fmt.Println(i+1, ". "+o)
+			}
 			if i == len(choices)-1 {
-				choiceConter = i + 2
-				fmt.Println(choiceConter, ". Exit")
+				exitIndex = i + 2
+				fmt.Println(exitIndex, ". Exit")
 			}
 		}
 
 		fmt.Print("Enter Your Choice: ")
 		fmt.Scanln(&subChoice)
 
-		if subChoice == strconv.Itoa(choiceConter) {
+		if subChoice == strconv.Itoa(exitIndex) {
 			flag = true
 			continue
 		}
 
-		fmt.Print("\nOutput: ")
 		initiator.ExecuteAction(dataStructure + "." + subChoice)
+
 	}
 }
