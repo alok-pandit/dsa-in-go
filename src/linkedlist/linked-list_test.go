@@ -1,7 +1,9 @@
 package linkedlist
 
 import (
-	"strconv"
+	"bytes"
+	"io"
+	"os"
 	"testing"
 )
 
@@ -187,90 +189,409 @@ func TestReverse(t *testing.T) {
 	}
 }
 
-var listLength = 60000
-
-func BenchmarkAppendBefore(b *testing.B) {
-	// Create a sample linked list with a specific size
-	list := &SinglyLinkedList{}
-	for i := range listLength {
-		list.AppendBeforeStart(strconv.Itoa(i))
+func TestDeleteHead(t *testing.T) {
+	tests := []TestCase{
+		{
+			name: "Delete head from list with multiple elements",
+			data: []string{"A", "B", "C"},
+			want: []string{"B", "C"},
+		},
+		{
+			name: "Delete head from list with one element",
+			data: []string{"A"},
+			want: []string{},
+		},
+		{
+			name: "Delete head from empty list",
+			data: []string{},
+			want: []string{},
+		},
 	}
 
-	node := strconv.Itoa(listLength / 2)
-
-	// Benchmark the AppendBefore function
-	b.ResetTimer()
-	for range b.N {
-		list.AppendBefore("B", node)
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			l := getInitialList(TestCase{data: test.data})
+			l.DeleteHead()
+			testValidator(l, t, TestCase{want: test.want})
+		})
 	}
-
 }
 
-func BenchmarkAppendAfter(b *testing.B) {
-	// Create a sample linked list with a specific size
-	list := &SinglyLinkedList{}
-	for i := range listLength {
-		list.AppendBeforeStart(strconv.Itoa(i))
+func TestDeleteTail(t *testing.T) {
+	tests := []TestCase{
+		{
+			name: "Delete tail from list with multiple elements",
+			data: []string{"A", "B", "C"},
+			want: []string{"A", "B"},
+		},
+		{
+			name: "Delete tail from list with two elements",
+			data: []string{"A", "B"},
+			want: []string{"A"},
+		},
+		{
+			name: "Delete tail from list with one element",
+			data: []string{"A"},
+			want: []string{},
+		},
+		{
+			name: "Delete tail from empty list",
+			data: []string{},
+			want: []string{},
+		},
 	}
 
-	node := strconv.Itoa(listLength - 1)
-
-	// Benchmark the AppendAfter function
-	b.ResetTimer()
-	for range b.N {
-		list.AppendAfter("A", node)
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			l := getInitialList(TestCase{data: test.data})
+			l.DeleteTail()
+			testValidator(l, t, TestCase{want: test.want})
+		})
 	}
-
 }
 
-func BenchmarkReverse10k(b *testing.B) {
-	// Create a sample linked list with a specific size
-	list := &SinglyLinkedList{}
-	for i := range listLength {
-		list.AppendBeforeStart(strconv.Itoa(i))
+func TestDeleteNode(t *testing.T) {
+	tests := []TestCase{
+		{
+			name:     "Delete node from middle of list",
+			data:     []string{"A", "B", "C", "D"},
+			nodeData: "C",
+			want:     []string{"A", "B", "D"},
+		},
+		{
+			name:     "Delete first node",
+			data:     []string{"A", "B", "C"},
+			nodeData: "A",
+			want:     []string{"B", "C"},
+		},
+		{
+			name:     "Delete last node",
+			data:     []string{"A", "B", "C"},
+			nodeData: "C",
+			want:     []string{"A", "B"},
+		},
+		{
+			name:     "Delete node from list with one element",
+			data:     []string{"A"},
+			nodeData: "A",
+			want:     []string{},
+		},
+		{
+			name:     "Delete non-existent node",
+			data:     []string{"A", "B", "C"},
+			nodeData: "D",
+			want:     []string{"A", "B", "C"},
+		},
+		{
+			name:     "Delete from empty list",
+			data:     []string{},
+			nodeData: "A",
+			want:     []string{},
+		},
+		{
+			name:     "Delete node with duplicate values",
+			data:     []string{"A", "B", "C", "B", "D"},
+			nodeData: "B",
+			want:     []string{"A", "C", "B", "D"},
+		},
 	}
 
-	// Benchmark the Reverse function
-	b.ResetTimer()
-	list.Reverse()
-
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			l := getInitialList(test)
+			l.DeleteNode(test.nodeData)
+			testValidator(l, t, TestCase{want: test.want})
+		})
+	}
 }
 
-func BenchmarkReverse100k(b *testing.B) {
-	// Create a sample linked list with a specific size
-	list := &SinglyLinkedList{}
-	for i := range 100000 {
-		list.AppendBeforeStart(strconv.Itoa(i))
+func TestDeleteOneBefore(t *testing.T) {
+	tests := []TestCase{
+		{
+			name:     "Delete node before middle element",
+			data:     []string{"A", "B", "C", "D", "E"},
+			nodeData: "D",
+			want:     []string{"A", "B", "D", "E"},
+		},
+		{
+			name:     "Delete node before last element",
+			data:     []string{"A", "B", "C", "D"},
+			nodeData: "D",
+			want:     []string{"A", "B", "D"},
+		},
+		{
+			name:     "Delete node before first element (no change)",
+			data:     []string{"A", "B", "C"},
+			nodeData: "A",
+			want:     []string{"A", "B", "C"},
+		},
+		{
+			name:     "Delete from list with two elements",
+			data:     []string{"A", "B"},
+			nodeData: "B",
+			want:     []string{"B"},
+		},
+		{
+			name:     "Delete from list with one element (no change)",
+			data:     []string{"A"},
+			nodeData: "A",
+			want:     []string{"A"},
+		},
+		{
+			name:     "Delete from empty list (no change)",
+			data:     []string{},
+			nodeData: "A",
+			want:     []string{},
+		},
+		{
+			name:     "Delete before non-existent node (no change)",
+			data:     []string{"A", "B", "C"},
+			nodeData: "D",
+			want:     []string{"A", "B", "C"},
+		},
+		{
+			name:     "Delete before duplicate node (first occurrence)",
+			data:     []string{"A", "B", "C", "B", "D"},
+			nodeData: "B",
+			want:     []string{"B", "C", "B", "D"},
+		},
 	}
 
-	// Benchmark the Reverse function
-	b.ResetTimer()
-	list.Reverse()
-
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			l := getInitialList(test)
+			l.DeleteOneBefore(test.nodeData)
+			testValidator(l, t, TestCase{want: test.want})
+		})
+	}
 }
 
-func BenchmarkAddToStart(b *testing.B) {
-	// Create a sample linked list with a specific size
-	list := &SinglyLinkedList{}
-	for i := range listLength {
-		list.AppendBeforeStart(strconv.Itoa(i))
+func TestDeleteOneAfter(t *testing.T) {
+	tests := []TestCase{
+		{
+			name:     "Delete node after middle element",
+			data:     []string{"A", "B", "C", "D", "E"},
+			nodeData: "B",
+			want:     []string{"A", "B", "D", "E"},
+		},
+		{
+			name:     "Delete last node",
+			data:     []string{"A", "B", "C", "D"},
+			nodeData: "C",
+			want:     []string{"A", "B", "C"},
+		},
+		{
+			name:     "Delete after first element",
+			data:     []string{"A", "B", "C"},
+			nodeData: "A",
+			want:     []string{"A", "C"},
+		},
+		{
+			name:     "Delete from list with two elements",
+			data:     []string{"A", "B"},
+			nodeData: "A",
+			want:     []string{"A"},
+		},
+		{
+			name:     "Delete from list with one element (no change)",
+			data:     []string{"A"},
+			nodeData: "A",
+			want:     []string{"A"},
+		},
+		{
+			name:     "Delete from empty list (no change)",
+			data:     []string{},
+			nodeData: "A",
+			want:     []string{},
+		},
+		{
+			name:     "Delete after non-existent node (no change)",
+			data:     []string{"A", "B", "C"},
+			nodeData: "D",
+			want:     []string{"A", "B", "C"},
+		},
+		{
+			name:     "Delete after duplicate node (first occurrence)",
+			data:     []string{"A", "B", "C", "B", "D", "E"},
+			nodeData: "B",
+			want:     []string{"A", "B", "B", "D", "E"},
+		},
+		{
+			name:     "Delete after consecutive duplicate node (first occurrence)",
+			data:     []string{"A", "B", "B", "D", "E"},
+			nodeData: "B",
+			want:     []string{"A", "B", "D", "E"},
+		},
 	}
 
-	// Benchmark the Reverse function
-	b.ResetTimer()
-	list.AppendBeforeStart("A")
-
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			l := getInitialList(test)
+			l.DeleteOneAfter(test.nodeData)
+			testValidator(l, t, TestCase{want: test.want})
+		})
+	}
 }
 
-func BenchmarkAddToEnd(b *testing.B) {
-	// Create a sample linked list with a specific size
-	list := &SinglyLinkedList{}
-	for i := range listLength {
-		list.AppendBeforeStart(strconv.Itoa(i))
+func TestDeleteAllBefore(t *testing.T) {
+	tests := []TestCase{
+		{
+			name:     "Delete all before middle element",
+			data:     []string{"A", "B", "C", "D", "E"},
+			nodeData: "C",
+			want:     []string{"C", "D", "E"},
+		},
+		{
+			name:     "Delete all before last element",
+			data:     []string{"A", "B", "C", "D"},
+			nodeData: "D",
+			want:     []string{"D"},
+		},
+		{
+			name:     "Delete all before first element (no change)",
+			data:     []string{"A", "B", "C"},
+			nodeData: "A",
+			want:     []string{"A", "B", "C"},
+		},
+		{
+			name:     "Delete all before non-existent node (no change)",
+			data:     []string{"A", "B", "C"},
+			nodeData: "D",
+			want:     []string{"A", "B", "C"},
+		},
+		{
+			name:     "Delete all before in list with duplicate values",
+			data:     []string{"A", "B", "C", "B", "D", "E"},
+			nodeData: "B",
+			want:     []string{"B", "C", "B", "D", "E"},
+		},
+		{
+			name:     "Delete all before in empty list",
+			data:     []string{},
+			nodeData: "A",
+			want:     []string{},
+		},
+		{
+			name:     "Delete all before in list with one element",
+			data:     []string{"A"},
+			nodeData: "A",
+			want:     []string{"A"},
+		},
 	}
 
-	// Benchmark the Reverse function
-	b.ResetTimer()
-	list.AppendToEnd("A")
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			l := getInitialList(test)
+			l.DeleteAllBefore(test.nodeData)
+			testValidator(l, t, TestCase{want: test.want})
+		})
+	}
+}
 
+func TestDeleteAllAfter(t *testing.T) {
+	tests := []TestCase{
+		{
+			name:     "Delete all after middle element",
+			data:     []string{"A", "B", "C", "D", "E"},
+			nodeData: "C",
+			want:     []string{"A", "B", "C"},
+		},
+		{
+			name:     "Delete all after first element",
+			data:     []string{"A", "B", "C", "D"},
+			nodeData: "A",
+			want:     []string{"A"},
+		},
+		{
+			name:     "Delete all after last element (no change)",
+			data:     []string{"A", "B", "C"},
+			nodeData: "C",
+			want:     []string{"A", "B", "C"},
+		},
+		{
+			name:     "Delete all after non-existent node (no change)",
+			data:     []string{"A", "B", "C"},
+			nodeData: "D",
+			want:     []string{"A", "B", "C"},
+		},
+		{
+			name:     "Delete all after in list with duplicate values",
+			data:     []string{"A", "B", "C", "B", "D", "E"},
+			nodeData: "B",
+			want:     []string{"A", "B"},
+		},
+		{
+			name:     "Delete all after in empty list",
+			data:     []string{},
+			nodeData: "A",
+			want:     []string{},
+		},
+		{
+			name:     "Delete all after in list with one element",
+			data:     []string{"A"},
+			nodeData: "A",
+			want:     []string{"A"},
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			l := getInitialList(test)
+			l.DeleteAllAfter(test.nodeData)
+			testValidator(l, t, TestCase{want: test.want})
+		})
+	}
+}
+
+func TestPrintList(t *testing.T) {
+	tests := []struct {
+		name string
+		data []string
+		want string
+	}{
+		{
+			name: "Print empty list",
+			data: []string{},
+			want: "\nList is empty\n",
+		},
+		{
+			name: "Print list with one element",
+			data: []string{"A"},
+			want: "\nA\n",
+		},
+		{
+			name: "Print list with multiple elements",
+			data: []string{"A", "B", "C"},
+			want: "\nA -> B -> C\n",
+		},
+		{
+			name: "Print list with duplicate elements",
+			data: []string{"A", "B", "B", "C"},
+			want: "\nA -> B -> B -> C\n",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			l := getInitialList(TestCase{data: tt.data})
+
+			// Capture stdout
+			oldStdout := os.Stdout
+			r, w, _ := os.Pipe()
+			os.Stdout = w
+
+			l.PrintList()
+
+			w.Close()
+			os.Stdout = oldStdout
+
+			var buf bytes.Buffer
+			io.Copy(&buf, r)
+			got := buf.String()
+
+			if got != tt.want {
+				t.Errorf("PrintList() = %q, want %q", got, tt.want)
+			}
+		})
+	}
 }
