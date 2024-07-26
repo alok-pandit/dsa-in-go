@@ -3,14 +3,17 @@ package linkedlist
 import "fmt"
 
 type LinkedList interface {
-	AppendHead(string)
-	PrintList()
+	AppendToEnd(string)
+	AppendBeforeStart(string)
+	AppendAfter(string, string)
+	AppendBefore(string, string)
 	Reverse()
+	PrintList()
 }
 
 func GetChoices() []string {
 
-	return []string{"Insert at Beginning", "Print List", "Reverse"}
+	return []string{"Insert after tail", "Insert before head", "Insert after specific node", "insert before specific node", "Reverse", "Print"}
 
 }
 
@@ -24,21 +27,83 @@ type SinglyLinkedList struct {
 }
 
 // Append a new element to the end of the list
-func (l *SinglyLinkedList) AppendHead(data string) {
+func (l *SinglyLinkedList) AppendToEnd(data string) {
+
 	newNode := &node{data: data}
+
 	if l.head == nil {
 		l.head = newNode
 		return
 	}
+
 	currentNode := l.head
+
 	for currentNode.next != nil {
 		currentNode = currentNode.next
 	}
+
 	currentNode.next = newNode
+
 }
 
-// Print the list elements
+func (l *SinglyLinkedList) AppendBeforeStart(data string) {
+
+	newNode := &node{data: data}
+
+	if l.head == nil {
+		l.head = newNode
+		return
+	}
+
+	currentNode := l.head
+	newNode.next = currentNode
+	l.head = newNode
+
+}
+
+func (l *SinglyLinkedList) AppendAfter(data, nodeData string) {
+
+	newNode := &node{data: data}
+
+	if l.head == nil {
+		l.head = newNode
+		return
+	}
+
+	currentNode := l.head
+
+	for currentNode.data != nodeData {
+		currentNode = currentNode.next
+	}
+
+	newNode.next = currentNode.next
+	currentNode.next = newNode
+
+}
+
+func (l *SinglyLinkedList) AppendBefore(data, nodeData string) {
+
+	newNode := &node{data: data}
+
+	currentNode := l.head
+
+	if currentNode == nil || currentNode.data == nodeData {
+		newNode.next = currentNode
+		l.head = newNode
+		return
+	}
+
+	for currentNode.next.data != nodeData {
+		currentNode = currentNode.next
+	}
+
+	newNode.next = currentNode.next
+	currentNode.next = newNode
+
+}
+
 func (l *SinglyLinkedList) PrintList() {
+
 	currentNode := l.head
 
 	if currentNode == nil {
@@ -52,19 +117,25 @@ func (l *SinglyLinkedList) PrintList() {
 	}
 
 	fmt.Println(currentNode.data)
+
 }
 
 // Reverse the list
 func (l *SinglyLinkedList) Reverse() {
+
 	currentNode := l.head
+
 	var prevNode *node
+
 	for currentNode != nil {
 		nextNode := currentNode.next
 		currentNode.next = prevNode
 		prevNode = currentNode
 		currentNode = nextNode
 	}
+
 	l.head = prevNode
+
 }
 
 // * This ensures that the SinglyLinkedList struct implements the Linked List interface
