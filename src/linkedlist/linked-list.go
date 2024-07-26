@@ -351,40 +351,45 @@ func (l *SinglyLinkedList) DeleteNode(nodeData string) {
 // DeleteOneBefore deletes the node before the node with the given data in the SinglyLinkedList.
 //
 // Parameters:
-// - nodeData (string): The data of the node after which the node will be deleted.
+// - nodeData (string): The data of the node before which the node will be deleted.
 //
 // Return type: None.
 func (l *SinglyLinkedList) DeleteOneBefore(nodeData string) {
-	// If the list is empty or has only one node, return.
-	if l.head == nil || l.head.next == nil {
+	// If the list is empty, print a message and return.
+	if l.head == nil {
+		fmt.Println("List is empty")
 		return
 	}
 
-	// If the nodeData is the head or the next node is the nodeData,
-	// update the head and return.
-	if l.head.data == nodeData || l.head.next.data == nodeData {
+	// If the list has only one element, print a message and return.
+	if l.head.next == nil {
+		fmt.Println("List has only 1 element")
 		return
 	}
 
-	// Initialize the previous node pointer to the head.
-	var prev *node = l.head
+	// If the next node of the head has the given data, update the head and return.
+	if l.head.next.data == nodeData {
+		l.head = l.head.next
+		return
+	}
 
-	// Initialize the current node pointer to the second node.
-	currentNode := l.head.next
+	// Initialize the currentNode to the head of the list.
+	currentNode := l.head
 
-	// Iterate through the list until the nodeData is found or the end of the list is reached.
-	for currentNode != nil && currentNode.data != nodeData {
-		prev = currentNode
+	// Traverse the list until the node with the given data is found.
+	for currentNode.next != nil && currentNode.next.next != nil && currentNode.next.next.data != nodeData {
+
 		currentNode = currentNode.next
 	}
 
-	// If the nodeData is not found, return.
-	if currentNode == nil {
+	// If the node with the given data is not found, print a message and return.
+	if currentNode.next.next == nil {
+		fmt.Println("Node not found in the list")
 		return
 	}
 
 	// Update the next pointer of the previous node to skip the current node.
-	prev.next = currentNode.next
+	currentNode.next = currentNode.next.next
 }
 
 // DeleteOneAfter deletes the node after the node with the given data in the SinglyLinkedList.
