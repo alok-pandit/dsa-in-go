@@ -3,22 +3,27 @@ package initiator
 import (
 	"fmt"
 	"os"
-	"strings"
 
+	"github.com/alok-pandit/dsa-in-go/src/doublylinkedlist"
 	"github.com/alok-pandit/dsa-in-go/src/linkedlist"
+	"github.com/alok-pandit/dsa-in-go/src/utils"
 )
 
 var SLL *linkedlist.SinglyLinkedList
+var DLL *doublylinkedlist.DoublyLinkedList
 
 func InitializeAllDS() {
 	SLL = &linkedlist.SinglyLinkedList{}
+	DLL = &doublylinkedlist.DoublyLinkedList{}
 }
 
 func GetChoices(ds string) []string {
 	switch ds {
 	case "1":
 		return linkedlist.GetChoices()
-	case "22":
+	case "2":
+		return doublylinkedlist.GetChoices()
+	case "21":
 		os.Exit(0)
 		return nil
 	default:
@@ -31,55 +36,27 @@ func ExecuteAction(action string) {
 	switch action {
 
 	case "1.1":
-		fmt.Print("Enter the value to insert at end: ")
-		var value string
-		fmt.Scanln(&value)
-		if strings.Trim(value, " ") == "" {
-			_ = fmt.Errorf("data cannot be empty")
-			return
-		}
+		value := utils.GetValue()
+
 		SLL.AppendToEnd(value)
 
 	case "1.2":
-		fmt.Print("Enter the value to insert before start: ")
-		var value string
-		fmt.Scanln(&value)
-		if strings.Trim(value, " ") == "" {
-			_ = fmt.Errorf("data cannot be empty")
-			return
-		}
+		value := utils.GetValue()
+
 		SLL.AppendBeforeStart(value)
 
 	case "1.3":
-		fmt.Print("Enter the value to insert: ")
-		var value, node string
-		fmt.Scanln(&value)
-		fmt.Print("Enter the node after which this value is to be inserted:")
-		fmt.Scanln(&node)
-		if strings.Trim(value, " ") == "" {
-			_ = fmt.Errorf("data cannot be empty")
-			return
-		}
-		if strings.Trim(node, " ") == "" {
-			_ = fmt.Errorf("nodeData cannot be empty")
-			return
-		}
+		value := utils.GetValue()
+
+		node := utils.GetNode()
+
 		SLL.AppendAfter(value, node)
 
 	case "1.4":
-		fmt.Print("Enter the value to insert: ")
-		var value, node string
-		fmt.Scanln(&value)
-		fmt.Print("Enter the node before which this value is to be inserted:")
-		fmt.Scanln(&node)
-		if strings.Trim(value, " ") == "" {
-			_ = fmt.Errorf("data cannot be empty")
-			return
-		}
-		if strings.Trim(node, " ") == "" {
-			_ = fmt.Errorf("nodeData cannot be empty")
-			return
-		}
+		value := utils.GetValue()
+
+		node := utils.GetNode()
+
 		SLL.AppendBefore(value, node)
 
 	case "1.5":
@@ -89,53 +66,28 @@ func ExecuteAction(action string) {
 		SLL.DeleteTail()
 
 	case "1.7":
-		fmt.Print("Enter the node to delete: ")
-		var node string
-		fmt.Scanln(&node)
-		if strings.Trim(node, " ") == "" {
-			_ = fmt.Errorf("nodeData cannot be empty")
-			return
-		}
+		node := utils.GetNode()
+
 		SLL.DeleteNode(node)
 
 	case "1.8":
-		fmt.Print("Enter the node to delete one before: ")
-		var node string
-		fmt.Scanln(&node)
-		if strings.Trim(node, " ") == "" {
-			_ = fmt.Errorf("nodeData cannot be empty")
-			return
-		}
+		node := utils.GetNode()
+
 		SLL.DeleteOneBefore(node)
 
 	case "1.9":
-		fmt.Print("Enter the node to delete one after: ")
-		var node string
-		fmt.Scanln(&node)
-		if strings.Trim(node, " ") == "" {
-			_ = fmt.Errorf("nodeData cannot be empty")
-			return
-		}
+		node := utils.GetNode()
+
 		SLL.DeleteOneAfter(node)
 
 	case "1.10":
-		fmt.Print("Enter the node to delete all before: ")
-		var node string
-		fmt.Scanln(&node)
-		if strings.Trim(node, " ") == "" {
-			_ = fmt.Errorf("nodeData cannot be empty")
-			return
-		}
+		node := utils.GetNode()
+
 		SLL.DeleteAllBefore(node)
 
 	case "1.11":
-		fmt.Print("Enter the node to delete all after: ")
-		var node string
-		fmt.Scanln(&node)
-		if strings.Trim(node, " ") == "" {
-			_ = fmt.Errorf("nodeData cannot be empty")
-			return
-		}
+		node := utils.GetNode()
+
 		SLL.DeleteAllAfter(node)
 
 	case "1.12":
@@ -144,12 +96,35 @@ func ExecuteAction(action string) {
 	case "1.13":
 		SLL.PrintList()
 
+	case "2.1":
+		value := utils.GetValue()
+
+		DLL.Append(value)
+
+	case "2.2":
+		value := utils.GetValue()
+
+		DLL.Prepend(value)
+
+	case "2.3":
+		value := utils.GetValue()
+
+		node := utils.GetNode()
+
+		DLL.AppendAfter(node, value)
+
+	case "2.4":
+		value := utils.GetValue()
+
+		node := utils.GetNode()
+
+		DLL.AppendBefore(node, value)
+
+	case "2.14":
+		DLL.PrintList()
+
 	default:
 		fmt.Println("Invalid choice")
-	}
-
-	if action != "1.13" {
-		SLL.PrintList()
 	}
 
 }

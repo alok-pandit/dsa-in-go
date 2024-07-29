@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-type LinkedList interface {
+type ILinkedList interface {
 	AppendToEnd(string)
 	AppendBeforeStart(string)
 	AppendAfter(string, string)
@@ -505,4 +505,4 @@ func (l *SinglyLinkedList) DeleteAllAfter(nodeData string) {
 
 // * This ensures that the SinglyLinkedList struct
 // * implements the Linked List interface
-var _ LinkedList = (*SinglyLinkedList)(nil)
+var _ ILinkedList = (*SinglyLinkedList)(nil)
