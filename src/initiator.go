@@ -120,11 +120,49 @@ func ExecuteAction(action string) {
 
 		DLL.AppendBefore(node, value)
 
+	case "2.5":
+		DLL.DeleteHead()
+
+	case "2.6":
+		DLL.DeleteTail()
+
+	case "2.7":
+		node := utils.GetNode()
+
+		DLL.DeleteNode(node)
+
+	case "2.8":
+		node := utils.GetNode()
+
+		DLL.DeleteOneBefore(node)
+
+	case "2.9":
+		node := utils.GetNode()
+
+		DLL.DeleteOneAfter(node)
+
+	case "2.10":
+		node := utils.GetNode()
+
+		DLL.DeleteAllBefore(node)
+
+	case "2.11":
+		node := utils.GetNode()
+
+		DLL.DeleteAllAfter(node)
+
+	case "2.12":
+		DLL.Reverse()
+
+	case "2.13":
+		DLL.PrintLength()
+
 	case "2.14":
 		DLL.PrintList()
 
 	default:
 		fmt.Println("Invalid choice")
+
 	}
 
 }

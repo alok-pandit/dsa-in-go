@@ -99,7 +99,6 @@ func (l *DoublyLinkedList) AppendAfter(nodeData, data string) {
 	currentNode := l.findNode(nodeData)
 
 	if currentNode == nil {
-		fmt.Println("Node with data " + nodeData + " not found in the list")
 		return
 	}
 
@@ -124,7 +123,6 @@ func (l *DoublyLinkedList) AppendBefore(nodeData, data string) {
 	currentNode := l.findNode(nodeData)
 
 	if currentNode == nil {
-		fmt.Println("Node with data " + nodeData + " not found in the list")
 		return
 	}
 
@@ -148,7 +146,6 @@ func (l *DoublyLinkedList) AppendBefore(nodeData, data string) {
 func (l *DoublyLinkedList) DeleteHead() {
 
 	if l.head == nil {
-		fmt.Println("List is empty")
 		return
 	}
 
@@ -161,7 +158,6 @@ func (l *DoublyLinkedList) DeleteHead() {
 func (l *DoublyLinkedList) DeleteTail() {
 
 	if l.head == nil {
-		fmt.Println("List is empty")
 		return
 	}
 
@@ -176,7 +172,6 @@ func (l *DoublyLinkedList) DeleteNode(nodeData string) {
 	currentNode := l.findNode(nodeData)
 
 	if currentNode == nil {
-		fmt.Println("Node with data " + nodeData + " not found in the list")
 		return
 	}
 
@@ -193,7 +188,6 @@ func (l *DoublyLinkedList) DeleteOneBefore(nodeData string) {
 	currentNode := l.findNode(nodeData)
 
 	if currentNode == nil {
-		fmt.Println("Node with data " + nodeData + " not found in the list")
 		return
 	}
 
@@ -224,7 +218,6 @@ func (l *DoublyLinkedList) DeleteOneAfter(nodeData string) {
 	currentNode := l.findNode(nodeData)
 
 	if currentNode == nil {
-		fmt.Println("Node with data " + nodeData + " not found in the list")
 		return
 	}
 
@@ -232,9 +225,19 @@ func (l *DoublyLinkedList) DeleteOneAfter(nodeData string) {
 		return
 	}
 
-	currentNode.next = currentNode.next.next
+	if currentNode.next == l.tail {
+
+		currentNode.next = nil
+
+		l.tail = currentNode
+
+		return
+
+	}
 
 	currentNode.next.next.prev = currentNode
+
+	currentNode.next = currentNode.next.next
 
 	l.length--
 
@@ -245,7 +248,6 @@ func (l *DoublyLinkedList) DeleteAllBefore(nodeData string) {
 	currentNode := l.findNode(nodeData)
 
 	if currentNode == nil {
-		fmt.Println("Node with data " + nodeData + " not found in the list")
 		return
 	}
 
@@ -262,7 +264,6 @@ func (l *DoublyLinkedList) DeleteAllAfter(nodeData string) {
 	currentNode := l.findNode(nodeData)
 
 	if currentNode == nil {
-		fmt.Println("Node with data " + nodeData + " not found in the list")
 		return
 	}
 

@@ -662,13 +662,9 @@ func TestDeleteOneBeforeAndOtherOperations(t *testing.T) {
 		})
 	}
 }
+
 func TestDeleteOneAfter(t *testing.T) {
-	tests := []struct {
-		name     string
-		data     []string
-		nodeData string
-		want     []string
-	}{
+	tests := []TestCase{
 		{
 			name:     "Delete node after middle element",
 			data:     []string{"first", "second", "third", "fourth"},
@@ -714,12 +710,20 @@ func TestDeleteOneAfter(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			l := getInitialList(TestCase{data: test.data})
-			l.DeleteOneAfter(test.nodeData)
-			testValidator(l, t, TestCase{want: test.want})
-		})
+		t.Run(
+			test.name,
+			func(t *testing.T) {
+
+				l := getInitialList(TestCase{data: test.data})
+
+				l.DeleteOneAfter(test.nodeData)
+
+				testValidator(l, t, TestCase{want: test.want})
+
+			})
+
 	}
+
 }
 
 func TestDeleteOneAfterMultipleTimes(t *testing.T) {
@@ -829,12 +833,7 @@ func TestDeleteOneAfterAndOtherOperations(t *testing.T) {
 	}
 }
 func TestDeleteAllBefore(t *testing.T) {
-	tests := []struct {
-		name     string
-		data     []string
-		nodeData string
-		want     []string
-	}{
+	tests := []TestCase{
 		{
 			name:     "Delete all before middle element",
 			data:     []string{"first", "second", "third", "fourth", "fifth"},
@@ -1149,11 +1148,7 @@ func TestDeleteAllAfterAndOtherOperations(t *testing.T) {
 	}
 }
 func TestReverse(t *testing.T) {
-	tests := []struct {
-		name string
-		data []string
-		want []string
-	}{
+	tests := []TestCase{
 		{
 			name: "Reverse list with multiple elements",
 			data: []string{"first", "second", "third", "fourth"},
