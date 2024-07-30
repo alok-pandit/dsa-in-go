@@ -1177,12 +1177,21 @@ func TestReverse(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		t.Run(test.name, func(t *testing.T) {
-			l := getInitialList(TestCase{data: test.data})
-			l.Reverse()
-			testValidator(l, t, TestCase{want: test.want})
-		})
+
+		t.Run(
+			test.name,
+			func(t *testing.T) {
+
+				l := getInitialList(TestCase{data: test.data})
+
+				l.Reverse()
+
+				testValidator(l, t, TestCase{want: test.want})
+
+			})
+
 	}
+
 }
 
 func TestReverseMultipleTimes(t *testing.T) {
@@ -1209,8 +1218,7 @@ func TestReverseMultipleTimes(t *testing.T) {
 			data:         []string{"first", "second", "third"},
 			reverseTimes: 10,
 			want:         []string{"first", "second", "third"},
-		},
-	}
+		}}
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {

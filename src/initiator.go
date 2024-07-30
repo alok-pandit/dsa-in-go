@@ -4,17 +4,20 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/alok-pandit/dsa-in-go/src/doublylinkedlist"
-	"github.com/alok-pandit/dsa-in-go/src/linkedlist"
+	"github.com/alok-pandit/dsa-in-go/src/lists/doublylinkedlist"
+	"github.com/alok-pandit/dsa-in-go/src/lists/linkedlist"
+	"github.com/alok-pandit/dsa-in-go/src/stacks/arraystack"
 	"github.com/alok-pandit/dsa-in-go/src/utils"
 )
 
 var SLL *linkedlist.SinglyLinkedList
 var DLL *doublylinkedlist.DoublyLinkedList
+var AS *arraystack.ArrayStack
 
 func InitializeAllDS() {
 	SLL = &linkedlist.SinglyLinkedList{}
 	DLL = &doublylinkedlist.DoublyLinkedList{}
+	AS = arraystack.NewArrayStack(0)
 }
 
 func GetChoices(ds string) []string {
@@ -23,6 +26,8 @@ func GetChoices(ds string) []string {
 		return linkedlist.GetChoices()
 	case "2":
 		return doublylinkedlist.GetChoices()
+	case "6":
+		return arraystack.GetChoices()
 	case "21":
 		os.Exit(0)
 		return nil
@@ -159,6 +164,27 @@ func ExecuteAction(action string) {
 
 	case "2.14":
 		DLL.PrintList()
+
+	case "6.1":
+		value := utils.GetValue()
+		AS.Push(value)
+		AS.PrintStack()
+
+	case "6.2":
+		AS.Pop()
+		AS.PrintStack()
+
+	case "6.3":
+		fmt.Println(AS.Peek())
+
+	case "6.4":
+		AS.Length()
+
+	case "6.5":
+		AS.IsEmpty()
+
+	case "6.6":
+		AS.PrintStack()
 
 	default:
 		fmt.Println("Invalid choice")

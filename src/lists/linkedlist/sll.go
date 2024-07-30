@@ -319,7 +319,6 @@ func (l *SinglyLinkedList) DeleteNode(nodeData string) {
 
 	// If the list is empty, print a message and return.
 	if l.head == nil {
-		fmt.Println("List is empty")
 		return
 	}
 
@@ -339,7 +338,6 @@ func (l *SinglyLinkedList) DeleteNode(nodeData string) {
 
 	// If the node with the given data is not found, print a message and return.
 	if currentNode.next == nil {
-		fmt.Println("Node not found in the list")
 		return
 	}
 
@@ -357,13 +355,11 @@ func (l *SinglyLinkedList) DeleteNode(nodeData string) {
 func (l *SinglyLinkedList) DeleteOneBefore(nodeData string) {
 	// If the list is empty, print a message and return.
 	if l.head == nil {
-		fmt.Println("List is empty")
 		return
 	}
 
 	// If the list has only one element, print a message and return.
 	if l.head.next == nil {
-		fmt.Println("List has only 1 element")
 		return
 	}
 
@@ -384,7 +380,6 @@ func (l *SinglyLinkedList) DeleteOneBefore(nodeData string) {
 
 	// If the node with the given data is not found, print a message and return.
 	if currentNode.next.next == nil {
-		fmt.Println("Node not found in the list")
 		return
 	}
 
@@ -401,13 +396,11 @@ func (l *SinglyLinkedList) DeleteOneBefore(nodeData string) {
 func (l *SinglyLinkedList) DeleteOneAfter(nodeData string) {
 	// If the list is empty, print a message and return.
 	if l.head == nil {
-		fmt.Println("List is empty")
 		return
 	}
 
 	// If the list has only one element, print a message and return.
 	if l.head.next == nil {
-		fmt.Println("List has only 1 element")
 		return
 	}
 
@@ -421,7 +414,6 @@ func (l *SinglyLinkedList) DeleteOneAfter(nodeData string) {
 
 	// If the node with the given data is not found, print a message and return.
 	if currentNode.next == nil {
-		fmt.Println("Node not found in the list")
 		return
 	}
 
@@ -438,13 +430,11 @@ func (l *SinglyLinkedList) DeleteOneAfter(nodeData string) {
 func (l *SinglyLinkedList) DeleteAllBefore(nodeData string) {
 	// If the list is empty, print a message and return.
 	if l.head == nil {
-		fmt.Println("List is empty")
 		return
 	}
 
 	// If the list has only one element, print a message and return.
 	if l.head.next == nil {
-		fmt.Println("List has only 1 element")
 		return
 	}
 
@@ -458,7 +448,6 @@ func (l *SinglyLinkedList) DeleteAllBefore(nodeData string) {
 
 	// If the given node is not found in the list, print a message and return.
 	if currentNode.next == nil && currentNode.data != nodeData {
-		fmt.Println("Node not found in the list")
 		return
 	}
 
@@ -475,13 +464,11 @@ func (l *SinglyLinkedList) DeleteAllBefore(nodeData string) {
 func (l *SinglyLinkedList) DeleteAllAfter(nodeData string) {
 	// If the list is empty, print a message and return.
 	if l.head == nil {
-		fmt.Println("List is empty")
 		return
 	}
 
 	// If the list has only one element, print a message and return.
 	if l.head.next == nil {
-		fmt.Println("List has only 1 element")
 		return
 	}
 
@@ -495,7 +482,6 @@ func (l *SinglyLinkedList) DeleteAllAfter(nodeData string) {
 
 	// If the given node is not found in the list, print a message and return.
 	if currentNode.next == nil && currentNode.data != nodeData {
-		fmt.Println("Node not found in the list")
 		return
 	}
 
