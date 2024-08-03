@@ -14,9 +14,7 @@ type Stack struct {
 
 func (s *Stack) Push(data interface{}) {
 
-	newNode := &Node{data: data, prev: s.top}
-
-	s.top = newNode
+	s.top = &Node{data: data, prev: s.top}
 
 	s.size++
 

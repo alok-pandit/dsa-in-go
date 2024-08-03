@@ -42,8 +42,6 @@ func NewArrayStack(capacity int) *ArrayStack {
 		length: 0,
 	}
 
-	fmt.Printf("AS: %+v\n\n", a)
-
 	a.data = a.data[:0]
 
 	return &a
