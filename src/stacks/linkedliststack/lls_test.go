@@ -18,7 +18,7 @@ func TestPush(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := &Stack{}
+			s := &LinkedListStack{}
 			s.Push(tt.data)
 
 			if s.Size() != tt.expected {
@@ -42,7 +42,7 @@ func TestPush(t *testing.T) {
 
 func TestPushMultiple(t *testing.T) {
 
-	s := &Stack{}
+	s := &LinkedListStack{}
 
 	data := []interface{}{1, "two", 3.14, true}
 
@@ -71,7 +71,7 @@ func TestPushMultiple(t *testing.T) {
 }
 
 func TestPushLargeNumber(t *testing.T) {
-	s := &Stack{}
+	s := &LinkedListStack{}
 
 	n := 1000000
 
@@ -95,25 +95,26 @@ func TestPushLargeNumber(t *testing.T) {
 	}
 
 }
+
 func TestPop(t *testing.T) {
 	tests := []struct {
 		name     string
-		setup    func() *Stack
+		setup    func() *LinkedListStack
 		expected interface{}
 		wantSize int
 	}{
 		{
 			name: "Pop from empty stack",
-			setup: func() *Stack {
-				return &Stack{}
+			setup: func() *LinkedListStack {
+				return &LinkedListStack{}
 			},
 			expected: nil,
 			wantSize: 0,
 		},
 		{
 			name: "Pop single element",
-			setup: func() *Stack {
-				s := &Stack{}
+			setup: func() *LinkedListStack {
+				s := &LinkedListStack{}
 				s.Push(42)
 				return s
 			},
@@ -122,8 +123,8 @@ func TestPop(t *testing.T) {
 		},
 		{
 			name: "Pop multiple elements",
-			setup: func() *Stack {
-				s := &Stack{}
+			setup: func() *LinkedListStack {
+				s := &LinkedListStack{}
 				s.Push(1)
 				s.Push(2)
 				s.Push(3)
@@ -134,8 +135,8 @@ func TestPop(t *testing.T) {
 		},
 		{
 			name: "Pop with different data types",
-			setup: func() *Stack {
-				s := &Stack{}
+			setup: func() *LinkedListStack {
+				s := &LinkedListStack{}
 				s.Push("hello")
 				s.Push(42)
 				s.Push(true)
@@ -168,7 +169,7 @@ func TestPop(t *testing.T) {
 
 func TestPopUntilEmpty(t *testing.T) {
 
-	s := &Stack{}
+	s := &LinkedListStack{}
 
 	elements := []interface{}{1, "two", 3.14, true}
 
@@ -201,7 +202,7 @@ func TestPopUntilEmpty(t *testing.T) {
 
 func TestPopPerformance(t *testing.T) {
 
-	s := &Stack{}
+	s := &LinkedListStack{}
 
 	n := 1000000
 
@@ -228,20 +229,20 @@ func TestPopPerformance(t *testing.T) {
 func TestPeek(t *testing.T) {
 	tests := []struct {
 		name     string
-		setup    func() *Stack
+		setup    func() *LinkedListStack
 		expected interface{}
 	}{
 		{
 			name: "Peek empty stack",
-			setup: func() *Stack {
-				return &Stack{}
+			setup: func() *LinkedListStack {
+				return &LinkedListStack{}
 			},
 			expected: nil,
 		},
 		{
 			name: "Peek single element",
-			setup: func() *Stack {
-				s := &Stack{}
+			setup: func() *LinkedListStack {
+				s := &LinkedListStack{}
 				s.Push(42)
 				return s
 			},
@@ -249,8 +250,8 @@ func TestPeek(t *testing.T) {
 		},
 		{
 			name: "Peek multiple elements",
-			setup: func() *Stack {
-				s := &Stack{}
+			setup: func() *LinkedListStack {
+				s := &LinkedListStack{}
 				s.Push(1)
 				s.Push(2)
 				s.Push(3)
@@ -260,8 +261,8 @@ func TestPeek(t *testing.T) {
 		},
 		{
 			name: "Peek after push and pop",
-			setup: func() *Stack {
-				s := &Stack{}
+			setup: func() *LinkedListStack {
+				s := &LinkedListStack{}
 				s.Push(1)
 				s.Push(2)
 				s.Pop()
@@ -271,8 +272,8 @@ func TestPeek(t *testing.T) {
 		},
 		{
 			name: "Peek with different data types",
-			setup: func() *Stack {
-				s := &Stack{}
+			setup: func() *LinkedListStack {
+				s := &LinkedListStack{}
 				s.Push("hello")
 				s.Push(42)
 				s.Push(true)
@@ -298,7 +299,7 @@ func TestPeek(t *testing.T) {
 }
 
 func TestPeekConsistency(t *testing.T) {
-	s := &Stack{}
+	s := &LinkedListStack{}
 	elements := []interface{}{1, "two", 3.14, true, nil}
 
 	for _, elem := range elements {
@@ -326,7 +327,7 @@ func TestPeekConsistency(t *testing.T) {
 }
 
 func TestPeekPerformance(t *testing.T) {
-	s := &Stack{}
+	s := &LinkedListStack{}
 	n := 1000000
 
 	for i := 0; i < n; i++ {

@@ -8,7 +8,7 @@ func BenchmarkPush(b *testing.B) {
 
 	b.Run("PushToEmptyStack", func(b *testing.B) {
 
-		stack := &Stack{}
+		stack := &LinkedListStack{}
 
 		b.ResetTimer()
 
@@ -20,7 +20,7 @@ func BenchmarkPush(b *testing.B) {
 
 	b.Run("PushAtop2kFilled", func(b *testing.B) {
 
-		stack := &Stack{}
+		stack := &LinkedListStack{}
 
 		for i := range 2000 {
 			stack.Push(i)
@@ -36,7 +36,7 @@ func BenchmarkPush(b *testing.B) {
 
 	b.Run("PushTo2kCapEmpty", func(b *testing.B) {
 
-		stack := &Stack{}
+		stack := &LinkedListStack{}
 
 		b.ResetTimer()
 
@@ -52,7 +52,7 @@ func BenchmarkPop(b *testing.B) {
 
 	b.Run("PopFromEmptyStack", func(b *testing.B) {
 
-		stack := &Stack{}
+		stack := &LinkedListStack{}
 
 		b.ResetTimer()
 
@@ -64,7 +64,7 @@ func BenchmarkPop(b *testing.B) {
 
 	b.Run("PopFrom1k", func(b *testing.B) {
 
-		stack := &Stack{}
+		stack := &LinkedListStack{}
 
 		b.ResetTimer()
 
@@ -76,7 +76,7 @@ func BenchmarkPop(b *testing.B) {
 
 	b.Run("PopFrom10k", func(b *testing.B) {
 
-		stack := &Stack{}
+		stack := &LinkedListStack{}
 
 		b.ResetTimer()
 

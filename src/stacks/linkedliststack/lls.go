@@ -2,17 +2,40 @@ package linkedliststack
 
 import "fmt"
 
+type ILinkedListStack interface {
+	Push(data interface{})
+	Pop() interface{}
+	Peek() interface{}
+	IsEmpty() bool
+	Size() int
+	PrintStack()
+}
+
+func GetChoices() []string {
+
+	return []string{
+		"Push",
+		"Pop",
+		"Peek",
+		"Length",
+		"Is empty",
+		"Size",
+		"Print stack",
+	}
+
+}
+
 type Node struct {
 	data interface{}
 	prev *Node
 }
 
-type Stack struct {
+type LinkedListStack struct {
 	top  *Node
 	size int
 }
 
-func (s *Stack) Push(data interface{}) {
+func (s *LinkedListStack) Push(data interface{}) {
 
 	s.top = &Node{data: data, prev: s.top}
 
@@ -20,7 +43,7 @@ func (s *Stack) Push(data interface{}) {
 
 }
 
-func (s *Stack) Pop() interface{} {
+func (s *LinkedListStack) Pop() interface{} {
 
 	if s.top == nil {
 		return nil
@@ -36,7 +59,7 @@ func (s *Stack) Pop() interface{} {
 
 }
 
-func (s *Stack) Peek() interface{} {
+func (s *LinkedListStack) Peek() interface{} {
 
 	if s.top == nil {
 		return nil
@@ -46,15 +69,15 @@ func (s *Stack) Peek() interface{} {
 
 }
 
-func (s *Stack) IsEmpty() bool {
+func (s *LinkedListStack) IsEmpty() bool {
 	return s.top == nil
 }
 
-func (s *Stack) Size() int {
+func (s *LinkedListStack) Size() int {
 	return s.size
 }
 
-func (s *Stack) PrintStack() {
+func (s *LinkedListStack) PrintStack() {
 
 	currentNode := s.top
 
@@ -63,3 +86,5 @@ func (s *Stack) PrintStack() {
 	}
 
 }
+
+var _ ILinkedListStack = (*LinkedListStack)(nil)

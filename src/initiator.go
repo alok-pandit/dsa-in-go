@@ -7,17 +7,20 @@ import (
 	"github.com/alok-pandit/dsa-in-go/src/lists/doublylinkedlist"
 	"github.com/alok-pandit/dsa-in-go/src/lists/linkedlist"
 	"github.com/alok-pandit/dsa-in-go/src/stacks/arraystack"
+	"github.com/alok-pandit/dsa-in-go/src/stacks/linkedliststack"
 	"github.com/alok-pandit/dsa-in-go/src/utils"
 )
 
 var SLL *linkedlist.SinglyLinkedList
 var DLL *doublylinkedlist.DoublyLinkedList
 var AS *arraystack.ArrayStack
+var LLS *linkedliststack.LinkedListStack
 
 func InitializeAllDS() {
 	SLL = &linkedlist.SinglyLinkedList{}
 	DLL = &doublylinkedlist.DoublyLinkedList{}
 	AS = arraystack.NewArrayStack(0)
+	LLS = &linkedliststack.LinkedListStack{}
 }
 
 func GetChoices(ds string) []string {
@@ -28,6 +31,8 @@ func GetChoices(ds string) []string {
 		return doublylinkedlist.GetChoices()
 	case "6":
 		return arraystack.GetChoices()
+	case "7":
+		return linkedlist.GetChoices()
 	case "21":
 		os.Exit(0)
 		return nil
@@ -185,6 +190,13 @@ func ExecuteAction(action string) {
 
 	case "6.6":
 		AS.PrintStack()
+
+	case "7.1":
+		value := utils.GetValue()
+		LLS.Push(value)
+
+	case "7.2":
+		fmt.Println("Popped: ", LLS.Pop())
 
 	default:
 		fmt.Println("Invalid choice")
