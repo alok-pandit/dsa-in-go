@@ -17,7 +17,6 @@ func GetChoices() []string {
 		"Push",
 		"Pop",
 		"Peek",
-		"Length",
 		"Is empty",
 		"Size",
 		"Print stack",
