@@ -241,5 +241,7 @@ func handleBinaryTreeCases(action string) {
 		fmt.Println(BT.IsEmpty())
 	case "16.8":
 		fmt.Println(BT.Size())
+	case "16.9":
+		BT.PrintTree()
 	}
 }

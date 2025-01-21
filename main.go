@@ -89,7 +89,7 @@ func main() {
 
 		}
 
-		fmt.Printf("\nChoose Operation for %s:\n\n", utils.DataStructures[dsInt-1])
+		fmt.Printf("\n\nChoose Operation for %s:\n\n", utils.DataStructures[dsInt-1])
 
 		var exitIndex int = utils.PrintChoices(choices)
 

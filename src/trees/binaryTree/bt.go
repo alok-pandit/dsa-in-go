@@ -11,6 +11,7 @@ type IBinaryTree interface {
 	PostorderTraversal()
 	IsEmpty() bool
 	Size() int
+	PrintTree()
 }
 
 func GetChoices() []string {
@@ -23,6 +24,7 @@ func GetChoices() []string {
 		"Postorder Traversal",
 		"Is empty",
 		"Size",
+		"Print Tree",
 	}
 }
 
@@ -37,15 +39,38 @@ type BinaryTree struct {
 	size int
 }
 
+const MaxTreeSize = 20
+
 func (t *BinaryTree) Insert(data int) {
+
+	if t.size >= MaxTreeSize {
+
+		fmt.Println("Tree is full")
+
+		return
+
+	}
+
+	if data < 0 {
+		fmt.Println("Invalid data")
+		return
+	}
+
 	newNode := &Node{data: data}
+
 	if t.root == nil {
 		t.root = newNode
 		t.size++
 		return
 	}
+
 	current := t.root
 	for {
+		if data == current.data {
+			fmt.Println("Duplicate data entered")
+			return
+		}
+
 		if data < current.data {
 			if current.left == nil {
 				current.left = newNode
@@ -60,6 +85,7 @@ func (t *BinaryTree) Insert(data int) {
 			current = current.right
 		}
 	}
+
 	t.size++
 }
 
@@ -157,6 +183,68 @@ func (t *BinaryTree) IsEmpty() bool {
 
 func (t *BinaryTree) Size() int {
 	return t.size
+}
+func (t *BinaryTree) PrintTree() {
+	if t.root == nil {
+		return
+	}
+
+	queue := []*Node{t.root}
+	level := 0
+	nodesInCurrentLevel := 1
+	nodesInNextLevel := 0
+
+	for len(queue) > 0 {
+		fmt.Printf("Level %d: ", level)
+		for i := 0; i < nodesInCurrentLevel; i++ {
+			node := queue[0]
+			queue = queue[1:]
+			if node == t.root {
+				fmt.Printf("%d(root)[L:", node.data)
+				if node.left != nil {
+					fmt.Printf("%d", node.left.data)
+				} else {
+					fmt.Printf("nil")
+				}
+				fmt.Printf(",R:")
+				if node.right != nil {
+					fmt.Printf("%d", node.right.data)
+				} else {
+					fmt.Printf("nil")
+				}
+				fmt.Printf("] ")
+			} else {
+
+				fmt.Printf("%d[L:", node.data)
+				if node.left != nil {
+					fmt.Printf("%d", node.left.data)
+				} else {
+					fmt.Printf("nil")
+				}
+				fmt.Printf(",R:")
+				if node.right != nil {
+					fmt.Printf("%d", node.right.data)
+				} else {
+					fmt.Printf("nil")
+				}
+				fmt.Printf("] ")
+			}
+
+			if node.left != nil {
+				queue = append(queue, node.left)
+				nodesInNextLevel++
+			}
+			if node.right != nil {
+				queue = append(queue, node.right)
+				nodesInNextLevel++
+			}
+		}
+		fmt.Println()
+
+		level++
+		nodesInCurrentLevel = nodesInNextLevel
+		nodesInNextLevel = 0
+	}
 }
 
 var _ IBinaryTree = (*BinaryTree)(nil)
