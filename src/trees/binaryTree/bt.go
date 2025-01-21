@@ -42,13 +42,9 @@ type BinaryTree struct {
 const MaxTreeSize = 20
 
 func (t *BinaryTree) Insert(data int) {
-
 	if t.size >= MaxTreeSize {
-
 		fmt.Println("Tree is full")
-
 		return
-
 	}
 
 	if data < 0 {
@@ -113,7 +109,71 @@ func (t *BinaryTree) deleteNode(node *Node, data int) *Node {
 		node.data = minNode.data
 		node.right = t.deleteNode(node.right, minNode.data)
 	}
-	return node
+	return t.balance(node)
+}
+
+func (t *BinaryTree) balance(node *Node) *Node {
+	if node == nil {
+		return nil
+	}
+
+	leftHeight := t.getHeight(node.left)
+	rightHeight := t.getHeight(node.right)
+
+	if abs(leftHeight-rightHeight) <= 1 {
+		return node
+	}
+
+	if leftHeight > rightHeight {
+		if t.getHeight(node.left.left) >= t.getHeight(node.left.right) {
+			return t.rotateRight(node)
+		}
+		node.left = t.rotateLeft(node.left)
+		return t.rotateRight(node)
+	}
+
+	if t.getHeight(node.right.right) >= t.getHeight(node.right.left) {
+		return t.rotateLeft(node)
+	}
+	node.right = t.rotateRight(node.right)
+	return t.rotateLeft(node)
+}
+
+func (t *BinaryTree) getHeight(node *Node) int {
+	if node == nil {
+		return 0
+	}
+	leftHeight := t.getHeight(node.left)
+	rightHeight := t.getHeight(node.right)
+	return max(leftHeight, rightHeight) + 1
+}
+
+func (t *BinaryTree) rotateLeft(node *Node) *Node {
+	newRoot := node.right
+	node.right = newRoot.left
+	newRoot.left = node
+	return newRoot
+}
+
+func (t *BinaryTree) rotateRight(node *Node) *Node {
+	newRoot := node.left
+	node.left = newRoot.right
+	newRoot.right = node
+	return newRoot
+}
+
+func abs(x int) int {
+	if x < 0 {
+		return -x
+	}
+	return x
+}
+
+func max(a, b int) int {
+	if a > b {
+		return a
+	}
+	return b
 }
 
 func (t *BinaryTree) findMin(node *Node) *Node {
@@ -184,6 +244,7 @@ func (t *BinaryTree) IsEmpty() bool {
 func (t *BinaryTree) Size() int {
 	return t.size
 }
+
 func (t *BinaryTree) PrintTree() {
 	if t.root == nil {
 		return
@@ -214,7 +275,6 @@ func (t *BinaryTree) PrintTree() {
 				}
 				fmt.Printf("] ")
 			} else {
-
 				fmt.Printf("%d[L:", node.data)
 				if node.left != nil {
 					fmt.Printf("%d", node.left.data)
