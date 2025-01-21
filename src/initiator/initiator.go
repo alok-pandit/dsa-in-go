@@ -2,7 +2,6 @@ package initiator
 
 import (
 	"fmt"
-	"os"
 	"strconv"
 
 	"github.com/alok-pandit/dsa-in-go/src/lists/doublylinkedlist"
@@ -28,24 +27,40 @@ func InitializeAllDS() {
 }
 
 func GetChoices(ds string) []string {
-	switch ds {
-	case "1":
-		return linkedlist.GetChoices()
-	case "2":
-		return doublylinkedlist.GetChoices()
-	case "6":
-		return arraystack.GetChoices()
-	case "7":
-		return linkedlist.GetChoices()
-	case "16":
-		return binaryTree.GetChoices()
-	case "21":
-		os.Exit(0)
+
+	dsInt, err := strconv.Atoi(ds)
+
+	if err != nil || dsInt < 1 || dsInt > len(utils.DataStructures) {
+
+		fmt.Println("Invalid choice")
+
 		return nil
+
+	}
+
+	switch utils.DataStructures[dsInt-1] {
+
+	case "Singly Linked List":
+		return linkedlist.GetChoices()
+
+	case "Doubly Linked List":
+		return doublylinkedlist.GetChoices()
+
+	case "Array Stack":
+		return arraystack.GetChoices()
+
+	case "Linked List Stack":
+		return linkedlist.GetChoices()
+
+	case "Binary Tree":
+		return binaryTree.GetChoices()
+
 	default:
 		fmt.Println("Invalid choice")
 		return nil
+
 	}
+
 }
 
 func handleSinglyLinkedListCases(action string) {

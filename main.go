@@ -3,8 +3,10 @@ package main
 import (
 	"fmt"
 	"strconv"
+	"strings"
 
-	initiator "github.com/alok-pandit/dsa-in-go/src"
+	"github.com/alok-pandit/dsa-in-go/src/initiator"
+	"github.com/alok-pandit/dsa-in-go/src/utils"
 )
 
 func main() {
@@ -19,9 +21,75 @@ func main() {
 
 		if flag {
 
-			// TODO: This needs to be dynamic instead of hard-coded, so that if another data structure is added, shouldn't mess up the selection logic, especially for Exit!
-			fmt.Println("\nChoose ur DS:\n\nLists:\n\n\t1. Singly Linked List\t\t2. Doubly Linked List\n\nSets:\n\n\t3. Hash Set\t\t\t4. Tree Set\n\t5. Linked Hash Set\n\nStacks:\n\n\t6. Array Stack\t\t\t7. Linked List Stack\n\nMaps:\n\n\t8.Hash Map\t\t\t9. Tree Map\n\t10. Linked Hash Map\t\t11. Hashed Bidi Map\n\t12. Tree Bidi Map\n\nTrees:\n\n\t13. Red Black Trees\t\t14. AVL Trees\n\t15. BTree\t\t\t16. Binary Tree\n\nQueues:\n\n\t17. Linked List Queue\t\t18. Array Queue\n\t19. Circular Buffer\t\t20. Priority Queue\n\n21. Exit")
+			fmt.Println("\nChoose ur Data Structure:")
+
+			categories := make(map[string][]int)
+
+			for i, ds := range utils.DataStructures {
+
+				words := strings.Fields(ds)
+
+				category := words[len(words)-1]
+
+				if category == "List" {
+
+					categories["Lists"] = append(categories["Lists"], i)
+
+				} else if category == "Set" {
+
+					categories["Sets"] = append(categories["Sets"], i)
+
+				} else if category == "Stack" {
+
+					categories["Stacks"] = append(categories["Stacks"], i)
+
+				} else if category == "Map" {
+
+					categories["Maps"] = append(categories["Maps"], i)
+
+				} else if category == "Trees" || category == "Tree" {
+
+					categories["Trees"] = append(categories["Trees"], i)
+
+				} else if category == "Queue" {
+
+					categories["Queues"] = append(categories["Queues"], i)
+
+				}
+
+			}
+
+			categoryOrder := []string{"Lists", "Sets", "Stacks", "Maps", "Trees", "Queues"}
+
+			for _, category := range categoryOrder {
+
+				indices := categories[category]
+
+				fmt.Printf("\n%s:\n\n", category)
+
+				for _, idx := range indices {
+
+					fmt.Printf("\t%d. %s", idx+1, utils.DataStructures[idx])
+
+					if idx%2 == 0 && idx+1 < len(utils.DataStructures) {
+
+						fmt.Printf("\t")
+
+					} else {
+
+						fmt.Println()
+
+					}
+
+				}
+
+				fmt.Println()
+			}
+
+			fmt.Println(len(utils.DataStructures)+1, ". Exit")
+
 			fmt.Print("\nEnter Your Choice: ")
+
 			fmt.Scanln(&dataStructure)
 
 		}
@@ -35,15 +103,25 @@ func main() {
 		var exitIndex int
 
 		for i, o := range choices {
+
 			if i < 9 {
+
 				fmt.Println("", i+1, ". "+o)
+
 			} else {
+
 				fmt.Println(i+1, ". "+o)
+
 			}
+
 			if i == len(choices)-1 {
+
 				exitIndex = i + 2
+
 				fmt.Println(exitIndex, ". Exit")
+
 			}
+
 		}
 
 		fmt.Print("Enter Your Choice: ")
@@ -51,8 +129,11 @@ func main() {
 		fmt.Scanln(&subChoice)
 
 		if subChoice == strconv.Itoa(exitIndex) {
+
 			flag = true
+
 			continue
+
 		}
 
 		initiator.ExecuteAction(dataStructure + "." + subChoice)
