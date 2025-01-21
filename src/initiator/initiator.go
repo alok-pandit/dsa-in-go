@@ -27,17 +27,7 @@ func InitializeAllDS() {
 	BT = &binaryTree.BinaryTree{}
 }
 
-func GetChoices(ds string) []string {
-
-	dsInt, err := strconv.Atoi(ds)
-
-	if err != nil || dsInt < 1 || dsInt > len(utils.DataStructures)+1 {
-
-		fmt.Println("Invalid choice")
-
-		return nil
-
-	}
+func GetChoices(dsInt int) []string {
 
 	if dsInt == len(utils.DataStructures)+1 {
 
@@ -68,6 +58,24 @@ func GetChoices(ds string) []string {
 		fmt.Println("Invalid choice")
 		return nil
 
+	}
+
+}
+
+func ExecuteAction(action string) {
+	switch action[0:2] {
+	case "1.":
+		handleSinglyLinkedListCases(action)
+	case "2.":
+		handleDoublyLinkedListCases(action)
+	case "6.":
+		handleArrayStackCases(action)
+	case "7.":
+		handleLinkedListStackCases(action)
+	case "16":
+		handleBinaryTreeCases(action)
+	default:
+		fmt.Println("Invalid choice")
 	}
 
 }
@@ -234,22 +242,4 @@ func handleBinaryTreeCases(action string) {
 	case "16.8":
 		fmt.Println(BT.Size())
 	}
-}
-
-func ExecuteAction(action string) {
-	switch action[0:2] {
-	case "1.":
-		handleSinglyLinkedListCases(action)
-	case "2.":
-		handleDoublyLinkedListCases(action)
-	case "6.":
-		handleArrayStackCases(action)
-	case "7.":
-		handleLinkedListStackCases(action)
-	case "16":
-		handleBinaryTreeCases(action)
-	default:
-		fmt.Println("Invalid choice")
-	}
-
 }

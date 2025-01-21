@@ -47,7 +47,7 @@ func main() {
 
 					categories["Maps"] = append(categories["Maps"], i)
 
-				} else if category == "Trees" || category == "Tree" {
+				} else if category == "Trees" || category == "Tree" || category == "BTree" {
 
 					categories["Trees"] = append(categories["Trees"], i)
 
@@ -61,32 +61,7 @@ func main() {
 
 			categoryOrder := []string{"Lists", "Sets", "Stacks", "Maps", "Trees", "Queues"}
 
-			for _, category := range categoryOrder {
-
-				indices := categories[category]
-
-				fmt.Printf("\n%s:\n\n", category)
-
-				for _, idx := range indices {
-
-					fmt.Printf("\t%d. %s", idx+1, utils.DataStructures[idx])
-
-					if idx%2 == 0 && idx+1 < len(utils.DataStructures) {
-
-						fmt.Printf("\t")
-
-					} else {
-
-						fmt.Println()
-
-					}
-
-				}
-
-				fmt.Println()
-			}
-
-			fmt.Println(len(utils.DataStructures)+1, ". Exit")
+			printCategories(categories, categoryOrder)
 
 			fmt.Print("\nEnter Your Choice: ")
 
@@ -96,7 +71,17 @@ func main() {
 
 		flag = false
 
-		choices := initiator.GetChoices(dataStructure)
+		dsInt, err := strconv.Atoi(dataStructure)
+
+		if err != nil || dsInt < 1 || dsInt > len(utils.DataStructures)+1 {
+
+			fmt.Println("Invalid choice")
+
+			return
+
+		}
+
+		choices := initiator.GetChoices(dsInt)
 
 		if choices == nil {
 
@@ -104,33 +89,11 @@ func main() {
 
 		}
 
-		fmt.Println("\nChoose Operation:")
+		fmt.Printf("\nChoose Operation for %s:\n\n", utils.DataStructures[dsInt-1])
 
-		var exitIndex int
+		var exitIndex int = utils.PrintChoices(choices)
 
-		for i, o := range choices {
-
-			if i < 9 {
-
-				fmt.Println("", i+1, ". "+o)
-
-			} else {
-
-				fmt.Println(i+1, ". "+o)
-
-			}
-
-			if i == len(choices)-1 {
-
-				exitIndex = i + 2
-
-				fmt.Println(exitIndex, ". Exit")
-
-			}
-
-		}
-
-		fmt.Print("Enter Your Choice: ")
+		fmt.Print("\nEnter Your Choice: ")
 
 		fmt.Scanln(&subChoice)
 
@@ -145,5 +108,37 @@ func main() {
 		initiator.ExecuteAction(dataStructure + "." + subChoice)
 
 	}
+
+}
+
+func printCategories(categories map[string][]int, categoryOrder []string) {
+
+	for _, category := range categoryOrder {
+
+		indices := categories[category]
+
+		fmt.Printf("\n%s:\n\n", category)
+
+		for _, idx := range indices {
+
+			fmt.Printf("\t%d. %s", idx+1, utils.DataStructures[idx])
+
+			if idx%2 == 0 && idx+1 < len(utils.DataStructures) {
+
+				fmt.Printf("\t")
+
+			} else {
+
+				fmt.Println()
+
+			}
+
+		}
+
+		fmt.Println()
+
+	}
+
+	fmt.Println(len(utils.DataStructures)+1, ". Exit")
 
 }
