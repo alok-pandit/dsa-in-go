@@ -96,9 +96,15 @@ func main() {
 
 		flag = false
 
-		fmt.Println("\nChoose Operation:")
-
 		choices := initiator.GetChoices(dataStructure)
+
+		if choices == nil {
+
+			return
+
+		}
+
+		fmt.Println("\nChoose Operation:")
 
 		var exitIndex int
 

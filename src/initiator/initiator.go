@@ -2,6 +2,7 @@ package initiator
 
 import (
 	"fmt"
+	"os"
 	"strconv"
 
 	"github.com/alok-pandit/dsa-in-go/src/lists/doublylinkedlist"
@@ -30,9 +31,17 @@ func GetChoices(ds string) []string {
 
 	dsInt, err := strconv.Atoi(ds)
 
-	if err != nil || dsInt < 1 || dsInt > len(utils.DataStructures) {
+	if err != nil || dsInt < 1 || dsInt > len(utils.DataStructures)+1 {
 
 		fmt.Println("Invalid choice")
+
+		return nil
+
+	}
+
+	if dsInt == len(utils.DataStructures)+1 {
+
+		os.Exit(0)
 
 		return nil
 
