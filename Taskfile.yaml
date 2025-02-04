@@ -1,0 +1,14 @@
+version: "3.8"
+
+tasks:
+  nm:
+    cmds:
+      - go vet && golangci-lint run src && nodemon --watch './**/*.go' --signal SIGTERM --exec 'go' run main.go
+
+  tst:
+    cmds:
+      - go test ./src/... -bench . -v -benchmem -cover
+
+  test-report:
+    cmds:
+      - go test -v -cover -json  ./src/... -bench . -benchmem | go-test-html-report
