@@ -3,7 +3,7 @@ version: "3.8"
 tasks:
   nm:
     cmds:
-      - go vet && golangci-lint run src && nodemon --watch './**/*.go' --signal SIGTERM --exec 'go' run main.go
+      - go vet && golangci-lint run . && nodemon --watch './**/*.go' --signal SIGTERM --exec 'go' run main.go
 
   tst:
     cmds:

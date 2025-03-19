@@ -65,7 +65,12 @@ func main() {
 
 			fmt.Print("\nEnter Your Choice: ")
 
-			fmt.Scanln(&dataStructure)
+			_, err := fmt.Scanln(&dataStructure)
+
+			if err != nil {
+				fmt.Println("Error reading input:", err)
+				return
+			}
 
 		}
 
@@ -95,7 +100,12 @@ func main() {
 
 		fmt.Print("\nEnter Your Choice: ")
 
-		fmt.Scanln(&subChoice)
+		_, err = fmt.Scanln(&subChoice)
+
+		if err != nil {
+			fmt.Println("Error reading input:", err)
+			return
+		}
 
 		if subChoice == strconv.Itoa(exitIndex) {
 
