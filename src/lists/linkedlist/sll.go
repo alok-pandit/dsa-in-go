@@ -85,22 +85,11 @@ func (l *SinglyLinkedList) AppendToEnd(data string) {
 // Return type: None.
 //
 // This function does the following:
-//  1. Creates a new node with the given data.
-//  2. If the linked list is empty, it sets the head of the linked list to the new node.
-//  3. Otherwise, it sets the next pointer of the new node to the head of the linked list
-//     and updates the head of the linked list to the new node.
+//  1. Creates a new node with the given data and pointing to head.
+//  2. It updates the head of the linked list to the new node.
 func (l *SinglyLinkedList) AppendBeforeStart(data string) {
 	// Create a new node with the given data.
-	newNode := &node{data: data, next: nil}
-
-	// If the linked list is empty, make the new node the head.
-	if l.head == nil {
-		l.head = newNode
-		return
-	}
-
-	// Set the next pointer of the new node to the head of the linked list.
-	newNode.next = l.head
+	newNode := &node{data: data, next: l.head}
 
 	// Update the head of the linked list to the new node.
 	l.head = newNode

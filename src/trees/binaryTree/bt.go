@@ -61,6 +61,7 @@ func (t *BinaryTree) Insert(data int) {
 	}
 
 	current := t.root
+
 	for {
 		if data == current.data {
 			fmt.Println("Duplicate data entered")
