@@ -47,6 +47,7 @@ type node struct {
 
 type SinglyLinkedList struct {
 	head *node
+	size int
 }
 
 // AppendToEnd appends a new node with the given data at the end of the linked list.
@@ -60,6 +61,7 @@ func (l *SinglyLinkedList) AppendToEnd(data string) {
 	// Create a new node with the given data.
 	newNode := &node{data: data, next: nil}
 
+	l.size++
 	// If the linked list is empty, make the new node the head.
 	if l.head == nil {
 		l.head = newNode
@@ -93,6 +95,7 @@ func (l *SinglyLinkedList) AppendBeforeStart(data string) {
 
 	// Update the head of the linked list to the new node.
 	l.head = newNode
+	l.size++
 }
 
 // AppendAfter appends a new node with the given data after the node with the specified nodeData in the SinglyLinkedList.
@@ -115,6 +118,8 @@ func (l *SinglyLinkedList) AppendAfter(data, nodeData string) {
 	// Create a new node with the given data.
 	newNode := &node{data: data, next: nil}
 
+	l.size++
+
 	// If the linked list is empty, make the new node the head.
 	if l.head == nil {
 		l.head = newNode
@@ -131,7 +136,6 @@ func (l *SinglyLinkedList) AppendAfter(data, nodeData string) {
 	// Append the new node as the next node of the previous node.
 	newNode.next = currentNode.next
 	currentNode.next = newNode
-
 }
 
 // AppendBefore appends a new node with the given data before the node with the specified nodeData in the SinglyLinkedList.
@@ -153,6 +157,7 @@ func (l *SinglyLinkedList) AppendBefore(data, nodeData string) {
 
 	// Create a new node with the given data.
 	newNode := &node{data: data, next: nil}
+	l.size++
 
 	// If the linked list is empty, make the new node the head.
 	if l.head == nil {
@@ -176,7 +181,6 @@ func (l *SinglyLinkedList) AppendBefore(data, nodeData string) {
 	// Append the new node as the next node of the previous node.
 	newNode.next = currentNode.next
 	currentNode.next = newNode
-
 }
 
 // PrintList prints the elements of the SinglyLinkedList.
@@ -193,6 +197,8 @@ func (l *SinglyLinkedList) PrintList() {
 		fmt.Println("List is empty")
 		return
 	}
+
+	fmt.Println("List Size: ", l.size)
 
 	currentNode := l.head
 
@@ -256,6 +262,7 @@ func (l *SinglyLinkedList) DeleteHead() {
 
 	// Update the head pointer to point to the next node after the current head.
 	l.head = l.head.next
+	l.size--
 }
 
 // DeleteTail deletes the tail node from the SinglyLinkedList.
@@ -274,6 +281,8 @@ func (l *SinglyLinkedList) DeleteTail() {
 		return
 	}
 
+	l.size--
+
 	// If the list has only one node, delete the node and return.
 	if l.head.next == nil {
 		l.head = nil
@@ -290,7 +299,6 @@ func (l *SinglyLinkedList) DeleteTail() {
 
 	// Update the next pointer of the second-to-last node to nil.
 	currentNode.next = nil
-
 }
 
 // DeleteNode deletes a node from the SinglyLinkedList with the given nodeData.
@@ -310,6 +318,8 @@ func (l *SinglyLinkedList) DeleteNode(nodeData string) {
 	if l.head == nil {
 		return
 	}
+
+	l.size--
 
 	// If the head node has the given data, update the head and return.
 	if l.head.data == nodeData {
@@ -332,7 +342,6 @@ func (l *SinglyLinkedList) DeleteNode(nodeData string) {
 
 	// Update the next pointer of the previous node to skip the current node.
 	currentNode.next = currentNode.next.next
-
 }
 
 // DeleteOneBefore deletes the node before the node with the given data in the SinglyLinkedList.
@@ -355,6 +364,7 @@ func (l *SinglyLinkedList) DeleteOneBefore(nodeData string) {
 	// If the next node of the head has the given data, update the head and return.
 	if l.head.next.data == nodeData {
 		l.head = l.head.next
+		l.size--
 		return
 	}
 
@@ -374,6 +384,7 @@ func (l *SinglyLinkedList) DeleteOneBefore(nodeData string) {
 
 	// Update the next pointer of the previous node to skip the current node.
 	currentNode.next = currentNode.next.next
+	l.size--
 }
 
 // DeleteOneAfter deletes the node after the node with the given data in the SinglyLinkedList.
@@ -408,6 +419,7 @@ func (l *SinglyLinkedList) DeleteOneAfter(nodeData string) {
 
 	// Point the next pointer of the current node to the node after it.
 	currentNode.next = currentNode.next.next
+	l.size--
 }
 
 // DeleteAllBefore deletes all nodes before the node with the given data in the SinglyLinkedList.
@@ -429,10 +441,11 @@ func (l *SinglyLinkedList) DeleteAllBefore(nodeData string) {
 
 	// Initialize the current node to the head of the list.
 	currentNode := l.head
-
+	var count int
 	// Traverse the list until we find the node with the given data or reach the end of the list.
 	for currentNode.data != nodeData && currentNode.next != nil {
 		currentNode = currentNode.next
+		count++
 	}
 
 	// If the given node is not found in the list, print a message and return.
@@ -442,6 +455,7 @@ func (l *SinglyLinkedList) DeleteAllBefore(nodeData string) {
 
 	// Update the head of the list to the node with the given data.
 	l.head = currentNode
+	l.size -= count - 1
 }
 
 // DeleteAllAfter deletes all nodes after the node with the given data in the SinglyLinkedList.
@@ -463,10 +477,12 @@ func (l *SinglyLinkedList) DeleteAllAfter(nodeData string) {
 
 	// Initialize the current node to the head of the list.
 	currentNode := l.head
+	var count int
 
 	// Traverse the list until we find the node with the given data or reach the end of the list.
 	for currentNode.data != nodeData && currentNode.next != nil {
 		currentNode = currentNode.next
+		count++
 	}
 
 	// If the given node is not found in the list, print a message and return.
@@ -476,6 +492,7 @@ func (l *SinglyLinkedList) DeleteAllAfter(nodeData string) {
 
 	// Set the next pointer of the current node to nil, which will delete all nodes after it.
 	currentNode.next = nil
+	l.size -= count - 1
 }
 
 // * This ensures that the SinglyLinkedList struct
