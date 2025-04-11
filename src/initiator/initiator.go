@@ -173,14 +173,14 @@ func handleArrayStackCases(action string) {
 		AS.Push(value)
 		AS.PrintStack()
 	case "6.2":
-		AS.Pop()
+		fmt.Println("Popped Val: ", AS.Pop())
 		AS.PrintStack()
 	case "6.3":
 		fmt.Println(AS.Peek())
 	case "6.4":
 		AS.Length()
 	case "6.5":
-		AS.IsEmpty()
+		fmt.Println("Is Empty: ", AS.IsEmpty())
 	case "6.6":
 		AS.PrintStack()
 	}

@@ -56,10 +56,6 @@ func TestNewArrayStack(t *testing.T) {
 					t.Errorf("NewArrayStack(%d) top = %d, want %d", tt.capacity, stack.top, tt.wantTop)
 				}
 
-				if stack.length != tt.wantLen {
-					t.Errorf("NewArrayStack(%d) length = %d, want %d", tt.capacity, stack.length, tt.wantLen)
-				}
-
 			},
 		)
 	}
@@ -76,9 +72,7 @@ func TestNewArrayStackNegativeCapacity(t *testing.T) {
 	if stack.top != -1 {
 		t.Errorf("NewArrayStack(-1) top = %d, want -1", stack.top)
 	}
-	if stack.length != 0 {
-		t.Errorf("NewArrayStack(-1) length = %d, want 0", stack.length)
-	}
+
 }
 func TestArrayStackPush(t *testing.T) {
 	tests := []TestCase{
@@ -123,9 +117,7 @@ func TestArrayStackPush(t *testing.T) {
 			if stack.top != tt.wantTop {
 				t.Errorf("Push() top = %d, want %d", stack.top, tt.wantTop)
 			}
-			if stack.length != tt.wantLen {
-				t.Errorf("Push() length = %d, want %d", stack.length, tt.wantLen)
-			}
+
 			for i := 0; i <= tt.wantTop; i++ {
 				if stack.data[i] != tt.pushData[i] {
 					t.Errorf("Push() data[%d] = %v, want %v", i, stack.data[i], tt.pushData[i])
@@ -196,13 +188,10 @@ func TestArrayStackPop(t *testing.T) {
 				}
 			}
 
-			fmt.Println(stack.top, tt.wantTop, stack.length, tt.wantLen)
 			if stack.top != tt.wantTop {
 				t.Errorf("After Pop() top = %d, want %d", stack.top, tt.wantTop)
 			}
-			if stack.length != tt.wantLen {
-				t.Errorf("After Pop() length = %d, want %d", stack.length, tt.wantLen)
-			}
+
 		})
 	}
 }
@@ -246,8 +235,8 @@ func TestArrayStackPopPushCombination(t *testing.T) {
 		t.Errorf("Pop() from empty stack = %v, want nil", got)
 	}
 
-	if stack.top != -1 || stack.length != 0 {
-		t.Errorf("After all operations, top = %d, length = %d, want top = -1, length = 0", stack.top, stack.length)
+	if stack.top != -1 {
+		t.Errorf("After all operations, top = %d, want top = -1", stack.top)
 	}
 }
 
@@ -300,15 +289,9 @@ func TestArrayStackPeek(t *testing.T) {
 				if stack.top != len(tt.pushData)-1 {
 					t.Errorf("After Peek() top = %d, want %d", stack.top, len(tt.pushData)-1)
 				}
-				if stack.length != len(tt.pushData) {
-					t.Errorf("After Peek() length = %d, want %d", stack.length, len(tt.pushData))
-				}
 			} else {
 				if stack.top != -1 {
 					t.Errorf("After Peek() on empty stack, top = %d, want -1", stack.top)
-				}
-				if stack.length != 0 {
-					t.Errorf("After Peek() on empty stack, length = %d, want 0", stack.length)
 				}
 			}
 		})
@@ -346,7 +329,6 @@ func TestArrayStackPeekDoesNotModifyStack(t *testing.T) {
 	stack.Push(2)
 
 	initialTop := stack.top
-	initialLength := stack.length
 
 	for i := 0; i < 3; i++ {
 		got := stack.Peek()
@@ -355,9 +337,6 @@ func TestArrayStackPeekDoesNotModifyStack(t *testing.T) {
 		}
 		if stack.top != initialTop {
 			t.Errorf("After Peek() iteration %d, top changed: got %d, want %d", i, stack.top, initialTop)
-		}
-		if stack.length != initialLength {
-			t.Errorf("After Peek() iteration %d, length changed: got %d, want %d", i, stack.length, initialLength)
 		}
 	}
 }

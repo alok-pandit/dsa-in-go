@@ -3,10 +3,10 @@ package arraystack
 import "fmt"
 
 type IArrayStack interface {
-	Push(data interface{})
-	Pop() interface{}
-	Peek() interface{}
-	Length() int
+	Push(data any)
+	Pop() any
+	Peek() any
+	Length()
 	IsEmpty() bool
 	PrintStack()
 }
@@ -25,9 +25,8 @@ func GetChoices() []string {
 }
 
 type ArrayStack struct {
-	data   []interface{}
-	top    int
-	length int
+	data []any
+	top  int
 }
 
 func NewArrayStack(capacity int) *ArrayStack {
@@ -36,29 +35,22 @@ func NewArrayStack(capacity int) *ArrayStack {
 		capacity = 0
 	}
 
-	a := ArrayStack{
-		data:   make([]interface{}, capacity),
-		top:    -1,
-		length: 0,
+	return &ArrayStack{
+		data: make([]any, 0, capacity),
+		top:  -1,
 	}
-
-	a.data = a.data[:0]
-
-	return &a
 
 }
 
-func (s *ArrayStack) Push(data interface{}) {
-
-	s.top++
+func (s *ArrayStack) Push(data any) {
 
 	s.data = append(s.data, data)
 
-	s.length++
+	s.top++
 
 }
 
-func (s *ArrayStack) Pop() interface{} {
+func (s *ArrayStack) Pop() any {
 
 	if s.top == -1 {
 		return nil
@@ -66,17 +58,15 @@ func (s *ArrayStack) Pop() interface{} {
 
 	data := s.data[s.top]
 
+	s.data = s.data[:s.top]
+
 	s.top--
-
-	s.length--
-
-	s.data = s.data[:len(s.data)-1]
 
 	return data
 
 }
 
-func (s *ArrayStack) Peek() interface{} {
+func (s *ArrayStack) Peek() any {
 
 	if s.top == -1 {
 		return nil
@@ -90,8 +80,8 @@ func (s *ArrayStack) IsEmpty() bool {
 	return s.top == -1
 }
 
-func (s *ArrayStack) Length() int {
-	return s.length
+func (s *ArrayStack) Length() {
+	fmt.Println("\nLenght: ", s.top+1)
 }
 
 func (s *ArrayStack) PrintStack() {

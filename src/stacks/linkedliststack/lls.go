@@ -3,9 +3,9 @@ package linkedliststack
 import "fmt"
 
 type ILinkedListStack interface {
-	Push(data interface{})
-	Pop() interface{}
-	Peek() interface{}
+	Push(data any)
+	Pop() any
+	Peek() any
 	IsEmpty() bool
 	Size() int
 	PrintStack()
@@ -25,7 +25,7 @@ func GetChoices() []string {
 }
 
 type Node struct {
-	data interface{}
+	data any
 	prev *Node
 }
 
@@ -34,7 +34,7 @@ type LinkedListStack struct {
 	size int
 }
 
-func (s *LinkedListStack) Push(data interface{}) {
+func (s *LinkedListStack) Push(data any) {
 
 	s.top = &Node{data: data, prev: s.top}
 
@@ -42,7 +42,7 @@ func (s *LinkedListStack) Push(data interface{}) {
 
 }
 
-func (s *LinkedListStack) Pop() interface{} {
+func (s *LinkedListStack) Pop() any {
 
 	if s.top == nil {
 		return nil
@@ -58,7 +58,7 @@ func (s *LinkedListStack) Pop() interface{} {
 
 }
 
-func (s *LinkedListStack) Peek() interface{} {
+func (s *LinkedListStack) Peek() any {
 
 	if s.top == nil {
 		return nil
