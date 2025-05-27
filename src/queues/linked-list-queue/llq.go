@@ -6,9 +6,9 @@ import (
 )
 
 type ILinkedListQueue interface {
-	Enqueue(string)
-	Dequeue() (string, error)
-	Front() (string, error)
+	Enqueue(any)
+	Dequeue() (any, error)
+	Front() (any, error)
 	IsEmpty() bool
 	Print()
 }
@@ -26,7 +26,7 @@ func GetChoices() []string {
 }
 
 type node struct {
-	data string
+	data any
 	next *node
 	prev *node
 }
@@ -37,7 +37,7 @@ type LinkedListQueue struct {
 	size int
 }
 
-func (llq *LinkedListQueue) Enqueue(data string) {
+func (llq *LinkedListQueue) Enqueue(data any) {
 
 	newNode := &node{data: data, next: llq.head, prev: nil}
 
@@ -57,7 +57,7 @@ func (llq *LinkedListQueue) Enqueue(data string) {
 
 }
 
-func (llq *LinkedListQueue) Dequeue() (string, error) {
+func (llq *LinkedListQueue) Dequeue() (any, error) {
 
 	if llq.IsEmpty() {
 		return "", errors.New("Queue is empty")
@@ -79,7 +79,7 @@ func (llq *LinkedListQueue) Dequeue() (string, error) {
 
 }
 
-func (llq *LinkedListQueue) Front() (string, error) {
+func (llq *LinkedListQueue) Front() (any, error) {
 
 	if llq.IsEmpty() {
 		return "", errors.New("Queue is empty")
