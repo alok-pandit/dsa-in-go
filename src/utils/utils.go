@@ -87,7 +87,15 @@ func PrintChoices(choices []string) int {
 
 			exitIndex = i + 2
 
-			fmt.Println(exitIndex, ". Exit")
+			if exitIndex < 9 {
+
+				fmt.Println("", exitIndex, ". Exit")
+
+			} else {
+
+				fmt.Println(exitIndex, ". Exit")
+
+			}
 
 		}
 

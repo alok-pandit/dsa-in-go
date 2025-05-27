@@ -123,24 +123,32 @@ func main() {
 
 func printCategories(categories map[string][]int, categoryOrder []string) {
 
+	maxLen := 0
+
 	for _, category := range categoryOrder {
 
 		indices := categories[category]
 
-		fmt.Printf("\n%s:\n\n", category)
+		fmt.Printf("\n%s:\n", category)
 
-		for _, idx := range indices {
+		for _, ds := range utils.DataStructures {
+			if len(ds) > maxLen {
+				maxLen = len(ds)
+			}
+		}
 
-			fmt.Printf("\t%d. %s", idx+1, utils.DataStructures[idx])
+		padding := maxLen + 5
 
-			if idx%2 == 0 && idx+1 < len(utils.DataStructures) {
+		for i := 0; i < len(indices); i += 2 {
 
-				fmt.Printf("\t")
+			format := fmt.Sprintf("\t%%2d. %%-%ds", padding)
 
+			fmt.Printf(format, indices[i]+1, utils.DataStructures[indices[i]])
+
+			if i+1 < len(indices) {
+				fmt.Printf("%2d. %s\n", indices[i+1]+1, utils.DataStructures[indices[i+1]])
 			} else {
-
 				fmt.Println()
-
 			}
 
 		}
@@ -149,6 +157,10 @@ func printCategories(categories map[string][]int, categoryOrder []string) {
 
 	}
 
-	fmt.Println(len(utils.DataStructures)+1, ". Exit")
+	padding := maxLen + 5
+
+	format := fmt.Sprintf("Exit:\n\t%%2d. %%-%ds", padding)
+
+	fmt.Printf(format, len(utils.DataStructures)+1, "Exit\n")
 
 }
