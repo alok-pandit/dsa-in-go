@@ -1,11 +1,11 @@
-package linkedlistqueue
+package arrayqueue
 
 import (
 	"errors"
 	"fmt"
 )
 
-type ILinkedListQueue interface {
+type IDeQueue interface {
 	Enqueue(any)
 	Dequeue() (any, error)
 	Front() (any, error)
@@ -31,13 +31,13 @@ type node struct {
 	prev *node
 }
 
-type LinkedListQueue struct {
+type DeQueue struct {
 	head *node
 	tail *node
 	size int
 }
 
-func (llq *LinkedListQueue) Enqueue(data any) {
+func (llq *DeQueue) Enqueue(data any) {
 
 	newNode := &node{data: data, next: llq.head, prev: nil}
 
@@ -57,7 +57,7 @@ func (llq *LinkedListQueue) Enqueue(data any) {
 
 }
 
-func (llq *LinkedListQueue) Dequeue() (any, error) {
+func (llq *DeQueue) Dequeue() (any, error) {
 
 	if llq.IsEmpty() {
 		return "", errors.New("Queue is empty")
@@ -79,7 +79,7 @@ func (llq *LinkedListQueue) Dequeue() (any, error) {
 
 }
 
-func (llq *LinkedListQueue) Front() (any, error) {
+func (llq *DeQueue) Front() (any, error) {
 
 	if llq.IsEmpty() {
 		return "", errors.New("Queue is empty")
@@ -89,11 +89,11 @@ func (llq *LinkedListQueue) Front() (any, error) {
 
 }
 
-func (llq *LinkedListQueue) IsEmpty() bool {
+func (llq *DeQueue) IsEmpty() bool {
 	return llq.head == nil
 }
 
-func (llq *LinkedListQueue) Print() {
+func (llq *DeQueue) Print() {
 
 	if llq.head == nil {
 		fmt.Println("Queue is empty")
@@ -118,6 +118,6 @@ func (llq *LinkedListQueue) Print() {
 
 }
 
-// * This ensures that the LinkedListQueue struct
-// * implements the ILinkedListQueue interface
-var _ ILinkedListQueue = (*LinkedListQueue)(nil)
+// * This ensures that the DeQueue struct
+// * implements the IDeQueue interface
+var _ IDeQueue = (*DeQueue)(nil)

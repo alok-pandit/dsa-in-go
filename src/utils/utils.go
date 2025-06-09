@@ -22,15 +22,17 @@ var DataStructures = []string{
 	"AVL Trees",
 	"BTree",
 	"Binary Tree",
+	"Trie Tree",
 	"Linked List Queue",
-	"Array Queue",
-	"Circular Buffer Queue",
 	"Priority Queue",
+	"Hashmap Queue",
+	"(Dequeue) Double Ended Queue",
+	"Circular Buffer Queue",
 }
 
 func GetValue() string {
 
-	fmt.Print("Enter the value to insert: ")
+	fmt.Print("Enter the value: ")
 
 	var value string
 

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+	"strings"
 
 	"github.com/alok-pandit/dsa-in-go/src/lists/doublylinkedlist"
 	"github.com/alok-pandit/dsa-in-go/src/lists/linkedlist"
@@ -11,6 +12,7 @@ import (
 	"github.com/alok-pandit/dsa-in-go/src/stacks/arraystack"
 	"github.com/alok-pandit/dsa-in-go/src/stacks/linkedliststack"
 	"github.com/alok-pandit/dsa-in-go/src/trees/binaryTree"
+	"github.com/alok-pandit/dsa-in-go/src/trees/trie"
 	"github.com/alok-pandit/dsa-in-go/src/utils"
 )
 
@@ -20,6 +22,7 @@ var AS *arraystack.ArrayStack
 var LLS *linkedliststack.LinkedListStack
 var BT *binaryTree.BinaryTree
 var LLQ *linkedlistqueue.LinkedListQueue
+var Trie *trie.Trie
 
 func InitializeAllDS() {
 	SLL = &linkedlist.SinglyLinkedList{}
@@ -28,6 +31,7 @@ func InitializeAllDS() {
 	LLS = &linkedliststack.LinkedListStack{}
 	BT = &binaryTree.BinaryTree{}
 	LLQ = &linkedlistqueue.LinkedListQueue{}
+	Trie = trie.NewTrie()
 }
 
 func GetChoices(dsInt int) []string {
@@ -60,6 +64,9 @@ func GetChoices(dsInt int) []string {
 	case "Linked List Queue":
 		return linkedlistqueue.GetChoices()
 
+	case "Trie Tree":
+		return trie.GetChoices()
+
 	default:
 		fmt.Println("Invalid choice")
 		return nil
@@ -81,11 +88,33 @@ func ExecuteAction(action string) {
 	case "16":
 		handleBinaryTreeCases(action)
 	case "17":
+		handleTrieCases(action)
+	case "18":
 		handleLinkedListQueueCases(action)
 	default:
 		fmt.Println("Invalid choice")
 	}
 
+}
+
+func handleTrieCases(action string) {
+	switch action {
+	case "17.1":
+		value := utils.GetValue()
+		Trie.Insert(strings.ToLower(value))
+	case "17.2":
+		value := utils.GetValue()
+		if Trie.Search(strings.ToLower(value)) {
+			fmt.Println("Found")
+		} else {
+			fmt.Println("Not Found")
+		}
+	case "17.3":
+		value := utils.GetValue()
+		Trie.Delete(strings.ToLower(value))
+	case "17.4":
+		Trie.Print()
+	}
 }
 
 func handleLinkedListQueueCases(action string) {
