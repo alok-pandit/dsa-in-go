@@ -208,6 +208,7 @@ func BenchmarkMemoryUsage(b *testing.B) {
 	})
 
 }
+
 func BenchmarkTrie_Search(b *testing.B) {
 	trie := NewTrie()
 	for _, word := range testWords {
@@ -250,6 +251,7 @@ func BenchmarkTrie_Insert(b *testing.B) {
 		}
 	})
 }
+
 func BenchmarkTrie_Delete(b *testing.B) {
 	b.Run("SmallWords", func(b *testing.B) {
 		trie := NewTrie()
@@ -289,4 +291,18 @@ func BenchmarkTrie_Delete(b *testing.B) {
 			}
 		}
 	})
+}
+
+func BenchmarkTrie_AutoComplete(b *testing.B) {
+	trie := NewTrie()
+	for _, word := range testWords {
+		trie.Insert(word)
+	}
+
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		for _, word := range testWords {
+			trie.AutoComplete(word)
+		}
+	}
 }

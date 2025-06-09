@@ -113,6 +113,9 @@ func handleTrieCases(action string) {
 		value := utils.GetValue()
 		Trie.Delete(strings.ToLower(value))
 	case "17.4":
+		value := utils.GetValue()
+		fmt.Println(Trie.AutoComplete(strings.ToLower(value)))
+	case "17.5":
 		Trie.Print()
 	}
 }
