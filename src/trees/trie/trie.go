@@ -11,6 +11,7 @@ type ITrie interface {
 	Insert(word string)
 	Search(word string) bool
 	Delete(word string)
+	AutoComplete(prefix string) []string
 	Print()
 }
 
@@ -19,6 +20,7 @@ func GetChoices() []string {
 		"Insert",
 		"Search",
 		"Delete",
+		"AutoComplete",
 		"Print",
 	}
 }
@@ -176,6 +178,46 @@ func (t *Trie) printNode(node *TrieNode, level int, prefix string) {
 
 		if child != nil {
 			t.printNode(child, level+1, string(rune(i)))
+		}
+
+	}
+
+}
+
+func (t *Trie) AutoComplete(prefix string) []string {
+
+	current := t.root
+
+	result := []string{}
+
+	for _, ascii := range prefix {
+
+		ascii = ascii - 'a'
+
+		if current.children[ascii] == nil {
+			return result
+		}
+
+		current = current.children[ascii]
+
+	}
+
+	t.findAllWords(current, prefix, &result)
+
+	return result
+
+}
+
+func (t *Trie) findAllWords(node *TrieNode, prefix string, result *[]string) {
+
+	if node.isEnd {
+		*result = append(*result, prefix)
+	}
+
+	for i, child := range node.children {
+
+		if child != nil {
+			t.findAllWords(child, prefix+string(rune(i+'a')), result)
 		}
 
 	}
